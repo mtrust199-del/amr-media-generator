@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AMR OMNI Command Center</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <header class="header">
+        <h1>AMR OMNI Command Center</h1>
+        <div id="system-clock"></div>
+    </header>
+
+    <!-- Status Indicators -->
+    <section class="status-grid">
+        <div class="status-card" id="status-playwright">
+            <div class="status-led inactive"></div>
+            <div class="status-info"><h3>Playwright Automation</h3><p>Idle</p></div>
+        </div>
+        <div class="status-card" id="status-sync">
+            <div class="status-led inactive"></div>
+            <div class="status-info"><h3>Database/SSD Sync</h3><p>Idle</p></div>
+        </div>
+        <div class="status-card" id="status-github">
+            <div class="status-led inactive"></div>
+            <div class="status-info"><h3>GitHub Auto‑Update</h3><p>Idle</p></div>
+        </div>
+        <div class="status-card" id="status-n8n">
+            <div class="status-led inactive"></div>
+            <div class="status-info"><h3>n8n Bridge</h3><p>Idle</p></div>
+        </div>
+    </section>
+
+    <!-- Action Center -->
+    <section class="action-center">
+        <h2>Action Center</h2>
+        <div class="button-grid">
+            <div class="glass-button" id="open-root"><div class="icon">📁</div><span>Open Project Root</span></div>
+            <div class="glass-button" id="open-media"><div class="icon">🎞️</div><span>Open Media/Downloads</span></div>
+            <div class="glass-button" id="auth-test"><div class="icon">🔐</div><span>Run Autonomous Auth Test</span></div>
+        </div>
+    </section>
+
+    <!-- Linked Modules -->
+    <section class="linked-modules">
+        <h2>Integrated Modules</h2>
+        <div class="module-links">
+            <div class="module-card"><h3>Temp Mail Interface</h3><p>Receive verification e‑mails for automated flows.</p><a href="/temp-mail" class="module-link">Open</a></div>
+            <div class="module-card"><h3>Video Publishing Dashboard</h3><p>Schedule, edit and upload video content.</p><a href="/video-dashboard" class="module-link">Open</a></div>
+            <div class="module-card"><h3>Automation System Page</h3><p>Control Playwright, PyAutoGUI, backups, etc.</p><a href="/automation" class="module-link">Open</a></div>
+        </div>
+    </section>
+</div>
+
+<!-- Progress Overlay -->
+<div class="progress-overlay" id="progress-overlay">
+    <div class="progress-card">
+        <h3 id="progress-title">Running Test…</h3>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div id="progress-log"></div>
+        <button class="glass-button" id="close-progress" style="margin-top:20px;">Close</button>
+    </div>
+</div>
+
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

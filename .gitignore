@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+sdist/
+develop-eggs/
+.installed.cfg
+*.egg
+
+# Virtual envs
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Project specific
+*.log
+*.rar
+*.exe
+backups/
+config/*.key
+config/*.log
+logs/
+media/
+automation/__pycache__/
+static/__pycache__/
+
+# Keep config templates but not secrets
+config/audit.json
+config/backup.json
+config/version.json
+!config/*.template
+
+# Node (if any)
+node_modules/

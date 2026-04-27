@@ -1,0 +1,83 @@
+{
+  "architecture": {
+    "overview": "Unified AMR Media Project integrates Flask backend, UI components (Temp Mail, Video Publishing Dashboard, Automation Page) with n8n orchestration, OpenRouter/Qwen intelligence, and local automation via PyAutoGUI/Playwright.",
+    "layers": {
+      "presentation": ["Temp Mail Interface", "Video Publishing Dashboard", "Automation System Page", "AMR OMNI Command Center (dashboard.html)"],
+      "orchestration": "n8n workflow engine",
+      "intelligence": "OpenRouter/Qwen (Arabic command processing)",
+      "automation": "PyAutoGUI/Playwright (OS & browser interaction)",
+      "self_healing": "GitHub auto‑update service"
+    },
+    "integration_points": {
+      "whatsapp_telegram_bridge": "n8n → Flask webhook /exec_endpoint",
+      "dashboard_scheduling": "n8n → Flask scheduler API",
+      "automation_page_triggers": "n8n → PyAutoGUI scripts",
+      "intelligence_triggers": "OpenRouter → Flask command dispatcher",
+      "dashboard_actions": "Glass‑morphism buttons → Flask /open‑folder, /auth/test"
+    }
+  },
+  "github_sync": {
+    "repository_url": "https://github.com/yourorg/amr-media-generator",
+    "default_branch": "main",
+    "webhook_secret": "REPLACE_WITH_SECRET",
+    "auto_update": true,
+    "update_schedule": "every 6 hours (cron: '0 */6 * * *')",
+    "update_process": [
+      "git fetch origin",
+      "git reset --hard origin/main",
+      "python -m pip install -r requirements.txt",
+      "systemctl restart amr-media.service || sudo service amr-media restart"
+    ]
+  },
+  "n8n_webhook_endpoints": {
+    "temp_mail": "https://n8n.example.com/webhook/temp-mail",
+    "video_dashboard": "https://n8n.example.com/webhook/video-dashboard",
+    "automation_page": "https://n8n.example.com/webhook/automation-page",
+    "intelligence": "https://n8n.example.com/webhook/intelligence",
+    "dashboard": "https://n8n.example.com/webhook/dashboard"
+  },
+  "ui_backend_mapping": {
+    "dashboard": {
+      "html": "templates/dashboard.html",
+      "css": "static/css/dashboard.css",
+      "js": "static/js/dashboard.js",
+      "backend_routes": ["/", "/open-folder", "/auth/test", "/api/status"],
+      "skill_alignment": {
+        "Playwright Automation": "status-playwright LED, /auth/test button",
+        "Database/SSD Sync": "status-sync LED, /open-folder action",
+        "GitHub Auto-Update": "status-github LED, skill_harvester.py",
+        "n8n Bridge": "status-n8n LED, /webhook/<platform>"
+      }
+    },
+    "temp_mail": {"url": "/temp-mail", "skill": "autonomous_registration"},
+    "video_dashboard": {"url": "/video-dashboard", "skill": "content_management"},
+    "automation_page": {"url": "/automation", "skill": "system_control"}
+  },
+  "global_skill_set": {
+    "local_execution": {
+      "browser_automation": ["Playwright", "PyAutoGUI"],
+      "system_control": ["OS_Module", "Subprocess"],
+      "content_management": ["OpenCV-Lite", "MoviePy-LowRes"]
+    },
+    "cloud_api": {
+      "seo_and_analytics": "qwen-2.5-72b-instruct",
+      "e_commerce_intelligence": "claude-3-5-sonnet",
+      "monetization_strategy": "qwen-3.6-preview"
+    },
+    "automation_triggers": {
+      "n8n_integration": ["whatsapp_webhook", "telegram_webhook"],
+      "self_growth_loop": ["github_sync", "performance_report"],
+      "autonomous_registration": {
+        "status": "Enabled",
+        "method": "Playwright_Sync_Wait",
+        "auth_handler": "Temp_Mail_API_Bridge"
+      }
+    },
+    "new_modules": [
+      "skill_harvester.py",
+      "routes_extended.py",
+      "automation/autonomous_auth.py"
+    ]
+  },
+  "notes": "All webhook URLs should be replaced with actual n8n instance addresses. Webhook secret must be set in both n8n and Flask config for security."
+}
