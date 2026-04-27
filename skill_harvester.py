@@ -212,5 +212,5 @@ def harvest(repo_url: str = "https://github.com/yourname/skills-repo.git") -> No
 
 
 if __name__ == "__main__":
-    repo = sys.argv[1] if len(sys.argv) > 1 else "https://github.com/yourname/skills-repo.git"
+    repo = sys.argv[1] if len(sys.argv) > 1 else "https://github.com/mtrust199-del/amr-media-generator.git"
     harvest(repo)

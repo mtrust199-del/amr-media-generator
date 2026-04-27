@@ -17,7 +17,7 @@
     }
   },
   "github_sync": {
-    "repository_url": "https://github.com/yourorg/amr-media-generator",
+    "repository_url": "https://github.com/mtrust199-del/amr-media-generator",
     "default_branch": "main",
     "webhook_secret": "REPLACE_WITH_SECRET",
     "auto_update": true,
