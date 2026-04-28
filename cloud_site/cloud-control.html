@@ -93,7 +93,8 @@
             if (msg === '/status') {
                 addLine('$ ' + msg, 'prompt');
                 addLine('Checking API status...', 'system');
-                fetch('/health').then(r => r.json()).then(d => addLine('OK: ' + JSON.stringify(d), 'assistant')).catch(e => addLine('Error: ' + e, 'error'));
+                // Mock health check – static demo
+addLine('OK: {"status":"demo","version":"1.0"}', 'assistant');
                 input.value = '';
                 return;
             }
@@ -110,21 +111,10 @@
             statusEl.textContent = '● Thinking...';
             statusEl.style.color = '#d29922';
 
-            try {
-                const res = await fetch('/chat_api', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: msg })
-                });
-                const data = await res.json();
-                if (data.error) {
-                    addLine('Error: ' + data.error, 'error');
-                } else {
-                    addLine('Claude: ' + (data.message || JSON.stringify(data)), 'assistant');
-                }
-            } catch (e) {
-                addLine('Connection error: ' + e.message, 'error');
-            }
+            // Static demo – no backend
+            setTimeout(() => {
+                addLine('Claude: This is a demo response. Run the Flask server locally for real interaction.', 'assistant');
+            }, 500);
 
             input.disabled = false;
             sendBtn.disabled = false;
