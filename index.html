@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amr Cloud Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <header class="max-w-6xl mx-auto flex justify-between items-center mb-6 p-6 glass rounded-2xl">
+        <div>
+            <h1 class="text-3xl font-bold text-blue-400">Amr Cloud Control</h1>
+            <p class="text-sm text-gray-400">مركز التحكم السحابي للنظام</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.open('http://127.0.0.1:5000/', '_blank')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-bold">فتح النظام المحلي</button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto">
+        <h2 class="text-xl font-bold mb-6">لوحات التحكم المتاحة</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Cloud Control Card -->
+            <div class="glass p-6 rounded-2xl hover:scale-[1.02] transition-all cursor-pointer" onclick="window.location.href='cloud-control.html'">
+                <div class="text-4xl mb-3">☁️</div>
+                <h3 class="text-lg font-bold mb-2">Cloud Control</h3>
+                <p class="text-xs text-gray-400">دردشة فورية مع ترجمة آلية (عربي ↔ إنجليزي)</p>
+                <div class="mt-4 text-xs text-blue-400">فتح الصفحة ←</div>
+            </div>
+
+            <!-- Temp Mail Card -->
+            <div class="glass p-6 rounded-2xl hover:scale-[1.02] transition-all cursor-pointer" onclick="window.location.href='temp-mail.html'">
+                <div class="text-4xl mb-3">📧</div>
+                <h3 class="text-lg font-bold mb-2">Temp Mail</h3>
+                <p class="text-xs text-gray-400">بريد مؤقت لاستلام الرسائل والتحقق</p>
+                <div class="mt-4 text-xs text-blue-400">فتح الصفحة ←</div>
+            </div>
+
+            <!-- Control Panel Card -->
+            <div class="glass p-6 rounded-2xl hover:scale-[1.02] transition-all cursor-pointer" onclick="window.location.href='control-panel.html'">
+                <div class="text-4xl mb-3">🎛️</div>
+                <h3 class="text-lg font-bold mb-2">لوحة التحكم</h3>
+                <p class="text-xs text-gray-400">لوحة التحكم الرئيسية للنظام</p>
+                <div class="mt-4 text-xs text-blue-400">فتح الصفحة ←</div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="glass rounded-2xl p-6">
+            <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
+            <div class="flex flex-wrap gap-3">
+                <a href="http://127.0.0.1:5000/" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm">النظام المحلي</a>
+                <a href="https://arena.ai/" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm">Arena.ai</a>
+                <a href="https://mtrust199-del.github.io/temp-mail/" target="_blank" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm">Temp Mail</a>
+                <a href="https://github.com/mtrust199-del/amr-media-generator" target="_blank" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-sm">GitHub</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="max-w-6xl mx-auto mt-8 text-center text-xs text-gray-500">
+        <p>Amr Cloud Control © 2026 | تم التطوير بواسطة Claude</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

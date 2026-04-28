@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temp Mail | Amr Cloud</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <header class="max-w-6xl mx-auto flex justify-between items-center mb-6 p-6 glass rounded-2xl">
+        <div>
+            <h1 class="text-2xl font-bold text-green-400">Temp Mail</h1>
+            <p class="text-sm text-gray-400">بريد مؤقت لاستلام الرسائل والتحقق</p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.location.href='index.html'" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm">العودة للرئيسية</button>
+            <button onclick="window.location.reload()" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm">تحديث</button>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto">
+        <div class="glass rounded-2xl p-6 min-h-[700px]">
+            <div class="w-full h-[700px] rounded-xl overflow-hidden">
+                <iframe src="https://mtrust199-del.github.io/temp-mail/" class="w-full h-full border-0"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <footer class="max-w-6xl mx-auto mt-8 text-center text-xs text-gray-500">
+        <p>Amr Cloud Control © 2026</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
