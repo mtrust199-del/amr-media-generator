@@ -99,6 +99,7 @@ for d in (STATIC_DIR, TEMPLATES_DIR, MEDIA_DIR, BACKUP_DIR, CONFIG_DIR):
     os.makedirs(d, exist_ok=True)
 
 app = Flask(__name__, static_folder=STATIC_DIR, template_folder=TEMPLATES_DIR)
+app.config['JSON_AS_ASCII'] = False
 
 # --- Skill-based Component Initialization ---
 agent = SmartAgent() if SmartAgent else None
@@ -365,6 +366,35 @@ def self_improve():
     """Skill: Self-improvement loop - Analyze logs and suggest improvements"""
     # Analyze audit logs and agent performance
     return jsonify({"status": "analysis_started"})
+
+@app.route("/execute", methods=["POST"])
+def execute_command():
+    """Remote-Local Command Bridge - receive JSON commands from GitHub Pages chat.html"""
+    data = request.json
+    if not data:
+        return jsonify({"error": "No JSON data"}), 400
+
+    cmd = data.get("command", "").strip()
+    if not cmd:
+        return jsonify({"error": "Empty command"}), 400
+
+    logger.info(f"Received remote command: {cmd}")
+
+    # Handle Arabic/English commands
+    result = {"status": "received", "command": cmd}
+
+    # Example: if command starts with "run:", execute locally
+    if cmd.startswith("run:"):
+        script = cmd[4:].strip()
+        try:
+            output = subprocess.check_output(script, shell=True, text=True, timeout=30)
+            result["output"] = output[:500]
+            result["status"] = "executed"
+        except Exception as e:
+            result["error"] = str(e)
+            result["status"] = "error"
+
+    return jsonify(result)
 
 if __name__ == "__main__":
     startup()

@@ -23,6 +23,8 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  direction: rtl; /* توجيه الصفحة بالكامل من اليمين لليسار */
+  unicode-bidi: bidi-override; /* لضمان عدم تداخل الأرقام مع النصوص */
 }
 
 .dashboard-container {

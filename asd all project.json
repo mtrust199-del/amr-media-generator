@@ -30,11 +30,11 @@
     ]
   },
   "n8n_webhook_endpoints": {
-    "temp_mail": "https://n8n.example.com/webhook/temp-mail",
-    "video_dashboard": "https://n8n.example.com/webhook/video-dashboard",
-    "automation_page": "https://n8n.example.com/webhook/automation-page",
-    "intelligence": "https://n8n.example.com/webhook/intelligence",
-    "dashboard": "https://n8n.example.com/webhook/dashboard"
+    "temp_mail": "http://localhost:5678/workflow/RneNoeIA8tVsH8PG/temp-mail",
+    "video_dashboard": "http://localhost:5678/workflow/RneNoeIA8tVsH8PG/video-dashboard",
+    "automation_page": "http://localhost:5678/workflow/RneNoeIA8tVsH8PG/automation-page",
+    "intelligence": "http://localhost:5678/workflow/RneNoeIA8tVsH8PG/intelligence",
+    "dashboard": "http://localhost:5678/workflow/RneNoeIA8tVsH8PG/dashboard"
   },
   "ui_backend_mapping": {
     "dashboard": {
@@ -76,7 +76,10 @@
     "new_modules": [
       "skill_harvester.py",
       "routes_extended.py",
-      "automation/autonomous_auth.py"
+      "automation/autonomous_auth.py",
+      "extras/algorithmic_art_skill.py",
+      "extras/docx_skill.py",
+      "extras/brand_guidelines_skill.py"
     ]
   },
   "notes": "All webhook URLs should be replaced with actual n8n instance addresses. Webhook secret must be set in both n8n and Flask config for security."

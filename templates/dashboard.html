@@ -1,34 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>AMR OMNI Command Center</title>
     <link rel="stylesheet" href="/static/css/dashboard.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="dashboard-container">
     <header class="header">
         <h1>AMR OMNI Command Center</h1>
-        <div id="system-clock"></div>
+        <div id="system-clock" class="clock"></div>
     </header>
 
     <!-- Status Indicators -->
     <section class="status-grid">
         <div class="status-card" id="status-playwright">
-            <div class="status-led inactive"></div>
-            <div class="status-info"><h3>Playwright Automation</h3><p>Idle</p></div>
+            <div class="status-led" id="led-playwright"></div>
+            <div class="status-info">
+                <h3>Playwright Automation</h3>
+                <p id="text-playwright">Idle</p>
+            </div>
         </div>
         <div class="status-card" id="status-sync">
-            <div class="status-led inactive"></div>
-            <div class="status-info"><h3>Database/SSD Sync</h3><p>Idle</p></div>
+            <div class="status-led" id="led-sync"></div>
+            <div class="status-info">
+                <h3>Database/SSD Sync</h3>
+                <p id="text-sync">Idle</p>
+            </div>
         </div>
         <div class="status-card" id="status-github">
-            <div class="status-led inactive"></div>
-            <div class="status-info"><h3>GitHub Auto‑Update</h3><p>Idle</p></div>
+            <div class="status-led" id="led-github"></div>
+            <div class="status-info">
+                <h3>GitHub Auto‑Update</h3>
+                <p id="text-github">Idle</p>
+            </div>
         </div>
         <div class="status-card" id="status-n8n">
-            <div class="status-led inactive"></div>
-            <div class="status-info"><h3>n8n Bridge</h3><p>Idle</p></div>
+            <div class="status-led" id="led-n8n"></div>
+            <div class="status-info">
+                <h3>n8n Bridge</h3>
+                <p id="text-n8n">Idle</p>
+            </div>
         </div>
     </section>
 
@@ -36,9 +49,19 @@
     <section class="action-center">
         <h2>Action Center</h2>
         <div class="button-grid">
-            <div class="glass-button" id="open-root"><div class="icon">📁</div><span>Open Project Root</span></div>
-            <div class="glass-button" id="open-media"><div class="icon">🎞️</div><span>Open Media/Downloads</span></div>
-            <div class="glass-button" id="auth-test"><div class="icon">🔐</div><span>Run Autonomous Auth Test</span></div>
+            <div class="glass-button" id="open-root">
+                <div class="icon">📁</div>
+                <span>Open Project Root</span>
+            </div>
+            <div class="glass-button" id="open-media">
+                <div class="icon">🎞️</div>
+                <span>Open Media/Downloads</span>
+            </div>
+            <div class="glass-button" id="auth-test">
+                <div class="icon">🔐</div>
+                <span>Run Autonomous Auth Test</span>
+                <small>Progress log overlay</small>
+            </div>
         </div>
     </section>
 
@@ -46,9 +69,21 @@
     <section class="linked-modules">
         <h2>Integrated Modules</h2>
         <div class="module-links">
-            <div class="module-card"><h3>Temp Mail Interface</h3><p>Receive verification e‑mails for automated flows.</p><a href="/temp-mail" class="module-link">Open</a></div>
-            <div class="module-card"><h3>Video Publishing Dashboard</h3><p>Schedule, edit and upload video content.</p><a href="/video-dashboard" class="module-link">Open</a></div>
-            <div class="module-card"><h3>Automation System Page</h3><p>Control Playwright, PyAutoGUI, backups, etc.</p><a href="/automation" class="module-link">Open</a></div>
+            <div class="module-card">
+                <h3>Temp Mail Interface</h3>
+                <p>Receive verification e‑mails for automated flows.</p>
+                <a href="/temp-mail" class="module-link">Open</a>
+            </div>
+            <div class="module-card">
+                <h3>Video Publishing Dashboard</h3>
+                <p>Schedule, edit and upload video content.</p>
+                <a href="/video-dashboard" class="module-link">Open</a>
+            </div>
+            <div class="module-card">
+                <h3>Automation System Page</h3>
+                <p>Control Playwright, PyAutoGUI, backups, etc.</p>
+                <a href="/automation" class="module-link">Open</a>
+            </div>
         </div>
     </section>
 </div>
@@ -63,6 +98,107 @@
     </div>
 </div>
 
-<script src="/static/js/dashboard.js"></script>
+<script>
+// dashboard.js – AMR OMNI Command Center frontend logic (embedded)
+
+// Clock update
+function updateClock() {
+    const now = new Date();
+    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('system-clock').textContent = now.toLocaleTimeString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Progress overlay helpers
+function showProgress(title) {
+    document.getElementById('progress-title').textContent = title;
+    document.getElementById('progress-fill').style.width = '0%';
+    document.getElementById('progress-log').innerHTML = '';
+    document.getElementById('progress-overlay').classList.add('active');
+}
+
+function updateProgress(pct, message) {
+    document.getElementById('progress-fill').style.width = pct + '%';
+    if (message) {
+        const log = document.getElementById('progress-log');
+        const time = new Date().toLocaleTimeString();
+        log.innerHTML += '<div style="color:#22c55e;margin:2px 0;">' + time + ' ' + message + '</div>';
+        log.scrollTop = log.scrollHeight;
+    }
+}
+
+function hideProgress() {
+    document.getElementById('progress-overlay').classList.remove('active');
+}
+
+document.getElementById('close-progress').addEventListener('click', hideProgress);
+
+// Button actions – call Flask backend
+document.getElementById('open-root').addEventListener('click', () => {
+    updateProgress(10, 'Opening project root...');
+    fetch('/open-folder?path=root', {method: 'POST'})
+        .then(r => r.json())
+        .then(data => {
+            updateProgress(100, data.message || 'Folder opened');
+        })
+        .catch(err => updateProgress(100, 'Error: ' + err.message));
+});
+
+document.getElementById('open-media').addEventListener('click', () => {
+    updateProgress(10, 'Opening media folder...');
+    fetch('/open-folder?path=media', {method: 'POST'})
+        .then(r => r.json())
+        .then(data => {
+            updateProgress(100, data.message || 'Folder opened');
+        })
+        .catch(err => updateProgress(100, 'Error: ' + err.message));
+});
+
+document.getElementById('auth-test').addEventListener('click', () => {
+    showProgress('Autonomous Auth Test');
+    updateProgress(10, 'Starting Playwright...');
+    fetch('/auth/test', {method: 'POST'})
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                updateProgress(100, '✅ Auth test succeeded');
+            } else {
+                updateProgress(100, '❌ Auth test failed: ' + (data.error || 'Unknown'));
+            }
+        })
+        .catch(err => {
+            updateProgress(100, '❌ Error: ' + err.message);
+        });
+});
+
+// Status LED pulse animation & backend polling
+function setStatus(module, active) {
+    const led = document.getElementById('led-' + module);
+    const text = document.getElementById('text-' + module);
+    if (!led || !text) return;
+    if (active) {
+        led.className = 'status-led active';
+        text.textContent = 'Active';
+    } else {
+        led.className = 'status-led inactive';
+        text.textContent = 'Idle';
+    }
+}
+
+function pollStatus() {
+    fetch('/api/status')
+        .then(r => r.json())
+        .then(data => {
+            setStatus('playwright', data.playwright);
+            setStatus('sync', data.sync);
+            setStatus('github', data.github);
+            setStatus('n8n', data.n8n);
+        })
+        .catch(() => {});
+}
+setInterval(pollStatus, 5000);
+pollStatus(); // initial call
+</script>
 </body>
 </html>
