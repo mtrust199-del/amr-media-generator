@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amr Generate Media | PRO Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; color: white; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
         .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; }
         .online { background-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
@@ -23,85 +23,85 @@
     <header class="max-w-6xl mx-auto flex justify-between items-center mb-6 p-6 glass rounded-2xl">
         <div>
             <h1 class="text-2xl font-bold text-blue-400">Amr Generate Media</h1>
-            <p class="text-sm text-gray-400">نظام الإدارة المتكامل v2.0</p>
+            <p class="text-sm text-gray-400">Integrated Management System v2.0</p>
         </div>
         <div class="flex items-center gap-3">
             <span id="global-status-dot" class="status-dot online"></span>
-            <span class="text-sm font-bold">النظام جاهز</span>
+            <span class="text-sm font-bold">System Ready</span>
         </div>
     </header>
 
     <nav class="max-w-6xl mx-auto flex gap-6 mb-6 border-b border-gray-800">
-        <button onclick="switchTab('main')" id="tab-main-btn" class="tab-btn active pb-2 px-4 font-bold transition-all">الرئيسية</button>
-        <button onclick="switchTab('perms')" id="tab-perms-btn" class="tab-btn pb-2 px-4 font-bold transition-all">الصلاحيات (1:15)</button>
+        <button onclick="switchTab('main')" id="tab-main-btn" class="tab-btn active pb-2 px-4 font-bold transition-all">Main</button>
+        <button onclick="switchTab('perms')" id="tab-perms-btn" class="tab-btn pb-2 px-4 font-bold transition-all">Permissions</button>
     </nav>
 
     <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         <div id="tab-main" class="lg:col-span-2 space-y-6">
             <div class="glass rounded-2xl p-6 h-[500px] flex flex-col">
-                <h2 class="text-lg font-bold mb-4">جسر التواصل الذكي</h2>
+                <h2 class="text-lg font-bold mb-4">Smart Communication Bridge</h2>
                 <div id="chat-display" class="flex-grow overflow-y-auto mb-4 space-y-3 p-2 text-sm custom-scroll">
                     <div class="bg-blue-900/20 p-3 rounded-xl border border-blue-500/20 text-blue-100">
-                        مرحباً يا مدير! تم تحميل نظام الصلاحيات. كيف يمكنني مساعدتك اليوم؟
+                        Hello Manager! Permissions system loaded. How can I help you today?
                     </div>
                 </div>
 
                 <div id="processing-bar" class="mb-4 hidden">
                     <div class="flex justify-between text-[10px] mb-1 text-blue-400">
-                        <span id="proc-text">جاري المعالجة...</span>
+                        <span id="proc-text">Processing...</span>
                         <span id="proc-percent">0%</span>
                     </div>
                     <div class="progress-container"><div id="proc-fill" class="progress-fill"></div></div>
                 </div>
 
                 <div class="flex gap-2">
-                    <input type="text" id="user-input" onkeypress="if(event.key==='Enter') sendBox()" placeholder="اكتب أمرك هنا..." class="flex-grow bg-slate-800 border border-gray-600 rounded-xl px-4 py-3 focus:border-blue-500 outline-none">
-                    <button onclick="sendBox()" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-bold">إرسال</button>
+                    <input type="text" id="user-input" onkeypress="if(event.key==='Enter') sendBox()" placeholder="Type your command here..." class="flex-grow bg-slate-800 border border-gray-600 rounded-xl px-4 py-3 focus:border-blue-500 outline-none">
+                    <button onclick="sendBox()" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-bold">Send</button>
                 </div>
             </div>
         </div>
 
         <div id="tab-perms" class="lg:col-span-2 space-y-6 hidden">
             <div class="glass rounded-2xl p-6 min-h-[500px]">
-                <h2 class="text-xl font-bold mb-6">🔐 إدارة صلاحيات الوصول</h2>
+                <h2 class="text-xl font-bold mb-6">Permission Management</h2>
                 <div class="bg-slate-800/30 rounded-xl overflow-hidden">
-                    <table class="w-full text-right">
+                    <table class="w-full text-left">
                         <thead class="bg-slate-800 text-gray-400 text-xs uppercase">
                             <tr>
                                 <th class="p-4">#</th>
-                                <th class="p-4">المنصة</th>
-                                <th class="p-4">الحالة</th>
-                                <th class="p-4 text-center">الإجراء</th>
+                                <th class="p-4">Platform</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4 text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody id="platforms-table-body">
                             </tbody>
                     </table>
                 </div>
-                
+
                 <div class="mt-8 p-4 glass rounded-xl border-dashed border-2 border-gray-700">
-                    <h3 class="text-sm font-bold mb-4 text-blue-400">إضافة منصة جديدة للقائمة</h3>
+                    <h3 class="text-sm font-bold mb-4 text-blue-400">Add New Platform</h3>
                     <div class="flex gap-2">
-                        <input type="text" id="new-name" placeholder="مثلاً: فيسبوك" class="bg-slate-900 border border-gray-700 rounded-lg px-3 py-2 text-sm flex-grow">
-                        <input type="text" id="new-url" placeholder="رابط الدخول" class="bg-slate-900 border border-gray-700 rounded-lg px-3 py-2 text-sm flex-grow">
-                        <button onclick="addNewPlatform()" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-bold">إضافة</button>
+                        <input type="text" id="new-name" placeholder="e.g., Facebook" class="bg-slate-900 border border-gray-700 rounded-lg px-3 py-2 text-sm flex-grow">
+                        <input type="text" id="new-url" placeholder="Login URL" class="bg-slate-900 border border-gray-700 rounded-lg px-3 py-2 text-sm flex-grow">
+                        <button onclick="addNewPlatform()" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-bold">Add</button>
                     </div>
-                    <p class="text-sm mt-2 text-gray-400">تحتاج بريداً مؤقتاً؟ <a href="https://mtrust199-del.github.io/temp-mail/" target="_blank" class="text-blue-400 hover:underline">احصل على بريد مؤقت</a></p>
+                    <p class="text-sm mt-2 text-gray-400">Need a temporary email? <a href="temp-mail.html" target="_blank" class="text-blue-400 hover:underline">Get one here</a></p>
                 </div>
             </div>
         </div>
 
         <div class="space-y-6">
             <div class="glass rounded-2xl p-6">
-                <h2 class="text-lg font-bold mb-4">آخر الوسائط</h2>
+                <h2 class="text-lg font-bold mb-4">Latest Media</h2>
                 <div id="media-preview" class="aspect-square bg-slate-900 rounded-xl border-2 border-dashed border-gray-700 flex items-center justify-center overflow-hidden">
                     <img id="res-img" src="" class="hidden w-full h-full object-cover">
-                    <p id="res-empty" class="text-gray-600 text-xs">في انتظار أمر توليد...</p>
+                    <p id="res-empty" class="text-gray-600 text-xs">Waiting for generation command...</p>
                 </div>
             </div>
             <div class="glass rounded-2xl p-5 h-56 flex flex-col">
-                <h2 class="text-xs font-bold text-gray-500 uppercase mb-2">سجل النظام</h2>
+                <h2 class="text-xs font-bold text-gray-500 uppercase mb-2">System Log</h2>
                 <div id="log-box" class="flex-grow overflow-y-auto text-[10px] font-mono text-blue-300/60 space-y-1">
                     <div>> System Online. Ready for instructions.</div>
                 </div>
@@ -110,7 +110,6 @@
     </main>
 
     <script>
-        // تبديل التبويبات
         function switchTab(tab) {
             document.getElementById('tab-main').classList.toggle('hidden', tab !== 'main');
             document.getElementById('tab-perms').classList.toggle('hidden', tab !== 'perms');
@@ -119,14 +118,13 @@
             if(tab === 'perms') loadPlatforms();
         }
 
-        // إرسال الأوامر
         function sendBox() {
             const input = document.getElementById('user-input');
             const chat = document.getElementById('chat-display');
             if(!input.value) return;
 
-            chat.innerHTML += `<div class="bg-slate-800 p-3 rounded-xl text-left ml-12 italic text-gray-300">أنت: ${input.value}</div>`;
-            showProc(20, "جاري التحليل...");
+            chat.innerHTML += `<div class="bg-slate-800 p-3 rounded-xl text-left ml-12 italic text-gray-300">You: ${input.value}</div>`;
+            showProc(20, "Analyzing...");
 
             fetch('/process_command', {
                 method: 'POST',
@@ -136,7 +134,7 @@
             .then(res => res.json())
             .then(data => {
                 showProc(100, data.message);
-                chat.innerHTML += `<div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30">المساعد: ${data.message}</div>`;
+                chat.innerHTML += `<div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30">Assistant: ${data.message}</div>`;
                 if(data.image_url) {
                     document.getElementById('res-img').src = data.image_url;
                     document.getElementById('res-img').classList.remove('hidden');
@@ -148,9 +146,22 @@
             input.value = '';
         }
 
-        // تحميل المنصات
+        function showProc(pct, txt) {
+            const bar = document.getElementById('processing-bar');
+            bar.classList.remove('hidden');
+            document.getElementById('proc-fill').style.width = pct + '%';
+            document.getElementById('proc-percent').textContent = pct + '%';
+            document.getElementById('proc-text').textContent = txt;
+        }
+
+        function addLog(msg) {
+            const lb = document.getElementById('log-box');
+            lb.innerHTML += `<div>> ${msg}</div>`;
+            lb.scrollTop = lb.scrollHeight;
+        }
+
         function loadPlatforms() {
-            addLog("جاري تحديث قائمة الصلاحيات...");
+            addLog("Updating permissions list...");
             fetch('/get_platforms')
             .then(res => res.json())
             .then(data => {
@@ -163,12 +174,12 @@
                             <td class="p-4 text-gray-500">${id}</td>
                             <td class="p-4 font-bold">${p.name}</td>
                             <td class="p-4">
-                                <span class="status-dot ${p.connected ? 'online' : 'offline'} ml-2"></span>
-                                <span class="text-[10px]">${p.connected ? 'متصل' : 'غير متصل'}</span>
+                                <span class="status-dot ${p.connected ? 'online' : 'offline'} mr-2"></span>
+                                <span class="text-[10px]">${p.connected ? 'Connected' : 'Disconnected'}</span>
                             </td>
                             <td class="p-4 text-center">
                                 <button onclick="runLogin('${id}')" class="px-4 py-1 rounded-full text-[10px] font-bold ${p.connected ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg'}" ${p.connected ? 'disabled' : ''}>
-                                    ${p.connected ? 'تم الاتصال' : 'تسجيل دخول'}
+                                    ${p.connected ? 'Connected' : 'Login'}
                                 </button>
                             </td>
                         </tr>`;
@@ -177,59 +188,23 @@
         }
 
         function runLogin(id) {
-            // Karena ai (id 5) opens browser directly
             if (id === "5") {
                 window.open('https://arena.ai/', '_blank');
-                showProc(100, "تم فتح متصفح أرينا");
-                // Mark as connected (simulated)
-                setTimeout(() => {
-                    // Update UI (optional)
-                    loadPlatforms();
-                }, 2000);
+                showProc(100, "Browser opened for Arena.ai");
+                setTimeout(() => { loadPlatforms(); }, 2000);
                 return;
             }
-            showProc(40, "جاري فتح المتصفح الآمن...");
+            showProc(40, "Opening secure browser...");
             fetch(`/login_platform/${id}`, {method: 'POST'})
             .then(res => res.json())
             .then(data => {
                 if(data.status === 'success') {
-                    showProc(100, "تم الحفظ بنجاح!");
+                    showProc(100, "Saved successfully!");
                     loadPlatforms();
                 } else {
-                    addLog("خطأ: " + data.message);
+                    addLog("Error: " + data.message);
                 }
             });
-        }
-
-        function addNewPlatform() {
-            const name = document.getElementById('new-name').value;
-            const url = document.getElementById('new-url').value;
-            if(!name || !url) return alert("اكمل البيانات");
-
-            fetch('/add_platform', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name, url})
-            }).then(() => {
-                document.getElementById('new-name').value = '';
-                document.getElementById('new-url').value = '';
-                loadPlatforms();
-            });
-        }
-
-        function showProc(per, txt) {
-            const bar = document.getElementById('processing-bar');
-            bar.classList.remove('hidden');
-            document.getElementById('proc-fill').style.width = per + '%';
-            document.getElementById('proc-percent').innerText = per + '%';
-            document.getElementById('proc-text').innerText = txt;
-            addLog(txt);
-        }
-
-        function addLog(m) {
-            const lb = document.getElementById('log-box');
-            lb.innerHTML += `<div>> [${new Date().toLocaleTimeString()}] ${m}</div>`;
-            lb.scrollTop = lb.scrollHeight;
         }
     </script>
 </body>

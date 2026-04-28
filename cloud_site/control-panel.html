@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم | AMR Media</title>
+    <title>Control Panel | AMR Media</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; color: white; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
         .status-dot { height: 12px; width: 12px; border-radius: 50%; display: inline-block; }
         .online { background-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
@@ -17,36 +17,36 @@
 <body class="min-h-screen p-4 md:p-8">
     <header class="max-w-6xl mx-auto flex justify-between items-center mb-6 p-6 glass rounded-2xl">
         <div>
-            <h1 class="text-2xl font-bold text-blue-400">لوحة التحكم</h1>
+            <h1 class="text-2xl font-bold text-blue-400">Control Panel</h1>
             <p class="text-sm text-gray-400">AMR Media Generator v1.0</p>
         </div>
         <div class="flex items-center gap-3">
             <span class="status-dot online"></span>
-            <span class="text-sm font-bold">النظام جاهز</span>
+            <span class="text-sm font-bold">System Ready</span>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="card glass">
-            <h2 class="text-lg font-bold mb-4">حالة النظام</h2>
-            <p class="text-sm text-gray-300">الخادم: <span class="text-green-400">متصل</span></p>
-            <p class="text-sm text-gray-300">النسخة: 1.0</p>
-            <p class="text-sm text-gray-300">المنصات: 5</p>
+            <h2 class="text-lg font-bold mb-4">System Status</h2>
+            <p class="text-sm text-gray-300">Server: <span class="text-green-400">Connected</span></p>
+            <p class="text-sm text-gray-300">Version: 1.0</p>
+            <p class="text-sm text-gray-300">Platforms: 5</p>
         </div>
         <div class="card glass">
-            <h2 class="text-lg font-bold mb-4">النشاط الأخير</h2>
+            <h2 class="text-lg font-bold mb-4">Recent Activity</h2>
             <ul class="text-sm text-gray-300 space-y-2">
-                <li>✓ تم نشر الموقع على GitHub Pages</li>
-                <li>✓ تم إنشاء الداشبورد</li>
-                <li>✓ تم إضافة الشات</li>
+                <li>✓ Site deployed to GitHub Pages</li>
+                <li>✓ Dashboard updated</li>
+                <li>✓ Cloud chat added</li>
             </ul>
         </div>
         <div class="card glass">
-            <h2 class="text-lg font-bold mb-4">روابط سريعة</h2>
+            <h2 class="text-lg font-bold mb-4">Quick Links</h2>
             <ul class="space-y-2 text-sm">
-                <li><a href="index.html" class="text-blue-400 hover:underline">الداشبورد</a></li>
-                <li><a href="cloud-control.html" class="text-blue-400 hover:underline">الشات السحابي</a></li>
-                <li><a href="temp-mail.html" class="text-blue-400 hover:underline">البريد المؤقت</a></li>
+                <li><a href="index.html" class="text-blue-400 hover:underline">Dashboard</a></li>
+                <li><a href="cloud-control.html" class="text-blue-400 hover:underline">Cloud Chat</a></li>
+                <li><a href="temp-mail.html" class="text-blue-400 hover:underline">Temp Mail</a></li>
             </ul>
         </div>
     </main>
