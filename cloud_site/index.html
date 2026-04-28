@@ -110,6 +110,15 @@
     </main>
 
     <script>
+        // Mock data for static demo (GitHub Pages has no backend)
+        const mockPlatforms = {
+            "1": { name: "YouTube", connected: false },
+            "2": { name: "TikTok", connected: false },
+            "3": { name: "Gmail", connected: true },
+            "4": { name: "WhatsApp", connected: false },
+            "5": { name: "Arena.ai", connected: false }
+        };
+
         function switchTab(tab) {
             document.getElementById('tab-main').classList.toggle('hidden', tab !== 'main');
             document.getElementById('tab-perms').classList.toggle('hidden', tab !== 'perms');
@@ -124,25 +133,15 @@
             if(!input.value) return;
 
             chat.innerHTML += `<div class="bg-slate-800 p-3 rounded-xl text-left ml-12 italic text-gray-300">You: ${input.value}</div>`;
-            showProc(20, "Analyzing...");
+            showProc(20, "Processing...");
 
-            fetch('/process_command', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({prompt: input.value})
-            })
-            .then(res => res.json())
-            .then(data => {
-                showProc(100, data.message);
-                chat.innerHTML += `<div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30">Assistant: ${data.message}</div>`;
-                if(data.image_url) {
-                    document.getElementById('res-img').src = data.image_url;
-                    document.getElementById('res-img').classList.remove('hidden');
-                    document.getElementById('res-empty').classList.add('hidden');
-                }
+            // Simulate response (static demo)
+            setTimeout(() => {
+                showProc(100, "Demo mode - no backend connected");
+                chat.innerHTML += `<div class="bg-blue-900/30 p-3 rounded-xl border border-blue-500/30">Assistant: This is a static demo. Run the Flask server locally to enable full functionality.</div>`;
                 chat.scrollTop = chat.scrollHeight;
                 setTimeout(() => document.getElementById('processing-bar').classList.add('hidden'), 2000);
-            });
+            }, 800);
             input.value = '';
         }
 
@@ -161,50 +160,44 @@
         }
 
         function loadPlatforms() {
-            addLog("Updating permissions list...");
-            fetch('/get_platforms')
-            .then(res => res.json())
-            .then(data => {
-                const body = document.getElementById('platforms-table-body');
-                body.innerHTML = '';
-                for (let id in data) {
-                    const p = data[id];
-                    body.innerHTML += `
-                        <tr class="border-b border-gray-800/50 hover:bg-white/5 transition-all">
-                            <td class="p-4 text-gray-500">${id}</td>
-                            <td class="p-4 font-bold">${p.name}</td>
-                            <td class="p-4">
-                                <span class="status-dot ${p.connected ? 'online' : 'offline'} mr-2"></span>
-                                <span class="text-[10px]">${p.connected ? 'Connected' : 'Disconnected'}</span>
-                            </td>
-                            <td class="p-4 text-center">
-                                <button onclick="runLogin('${id}')" class="px-4 py-1 rounded-full text-[10px] font-bold ${p.connected ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg'}" ${p.connected ? 'disabled' : ''}>
-                                    ${p.connected ? 'Connected' : 'Login'}
-                                </button>
-                            </td>
-                        </tr>`;
-                }
-            });
+            addLog("Loading platforms (demo mode)...");
+            const body = document.getElementById('platforms-table-body');
+            body.innerHTML = '';
+            for (let id in mockPlatforms) {
+                const p = mockPlatforms[id];
+                body.innerHTML += `
+                    <tr class="border-b border-gray-800/50 hover:bg-white/5 transition-all">
+                        <td class="p-4 text-gray-500">${id}</td>
+                        <td class="p-4 font-bold">${p.name}</td>
+                        <td class="p-4">
+                            <span class="status-dot ${p.connected ? 'online' : 'offline'} mr-2"></span>
+                            <span class="text-[10px]">${p.connected ? 'Connected' : 'Disconnected'}</span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <button onclick="runLogin('${id}')" class="px-4 py-1 rounded-full text-[10px] font-bold ${p.connected ? 'bg-gray-700 text-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg'}" ${p.connected ? 'disabled' : ''}>
+                                ${p.connected ? 'Connected' : 'Login'}
+                            </button>
+                        </td>
+                    </tr>`;
+            }
         }
 
         function runLogin(id) {
             if (id === "5") {
                 window.open('https://arena.ai/', '_blank');
                 showProc(100, "Browser opened for Arena.ai");
-                setTimeout(() => { loadPlatforms(); }, 2000);
+                setTimeout(() => {
+                    mockPlatforms[id].connected = true;
+                    loadPlatforms();
+                }, 2000);
                 return;
             }
-            showProc(40, "Opening secure browser...");
-            fetch(`/login_platform/${id}`, {method: 'POST'})
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === 'success') {
-                    showProc(100, "Saved successfully!");
-                    loadPlatforms();
-                } else {
-                    addLog("Error: " + data.message);
-                }
-            });
+            showProc(40, "Demo mode - no backend");
+            setTimeout(() => {
+                showProc(100, "Saved successfully (demo)!");
+                mockPlatforms[id].connected = true;
+                loadPlatforms();
+            }, 1000);
         }
     </script>
 </body>

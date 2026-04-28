@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with Claude | Amr Media</title>
+    <title>Remote Control | AMR Media</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'JetBrains Mono', monospace; background: #0a0e17; color: #c9d1d9; margin: 0; height: 100vh; display: flex; flex-direction: column; }
         .header { padding: 12px 20px; background: rgba(13,17,28,0.95); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 10px; }
         .header h1 { font-size: 14px; font-weight: 700; color: #58a6ff; }
-        .header .status { font-size: 11px; color: #3fb950; margin-left: auto; }
+        .header .status { font-size: 11px; margin-left: auto; }
+        .connected { color: #3fb950; }
+        .disconnected { color: #f85149; }
+        .main-container { flex: 1; display: flex; overflow: hidden; }
+        .sidebar { width: 300px; background: rgba(13,17,28,0.95); border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; }
+        .screen-area { flex: 1; display: flex; flex-direction: column; padding: 10px; }
+        .screen-view { flex: 1; background: #000; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; }
+        .screen-view canvas { width: 100%; height: 100%; object-fit: contain; }
         .terminal { flex: 1; overflow-y: auto; padding: 20px; }
         .line { margin-bottom: 10px; line-height: 1.6; font-size: 13px; white-space: pre-wrap; word-break: break-word; }
         .prompt { color: #58a6ff; font-weight: 700; }
@@ -24,28 +31,102 @@
         .btn { background: rgba(88,166,255,0.15); border: 1px solid rgba(88,166,255,0.4); color: #58a6ff; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: inherit; }
         .btn:hover { background: rgba(88,166,255,0.25); }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-green { border-color: rgba(63,185,80,0.4); color: #3fb950; background: rgba(63,185,80,0.15); }
+        .btn-green:hover { background: rgba(63,185,80,0.25); }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .control-panel { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .control-panel h3 { font-size: 12px; color: #8b949e; margin-bottom: 10px; text-transform: uppercase; }
+        .control-buttons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .control-btn { padding: 8px; background: rgba(30,41,59,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #c9d1d9; font-size: 11px; cursor: pointer; text-align: center; }
+        .control-btn:hover { background: rgba(88,166,255,0.15); border-color: rgba(88,166,255,0.4); }
+        .log-box { flex: 1; overflow-y: auto; padding: 10px; font-size: 11px; }
+        .tab-bar { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .tab-btn { padding: 10px 15px; font-size: 12px; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab-btn.active { border-bottom-color: #58a6ff; color: #58a6ff; }
+        .tab-content { display: none; flex: 1; overflow: hidden; }
+        .tab-content.active { display: flex; flex-direction: column; }
         .typing::after { content: '▋'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🖥️ Claude Terminal Chat</h1>
-        <span class="status" id="status">● Connected</span>
+        <h1>🖥️ Remote Browser Control</h1>
+        <span class="status connected" id="status">● Connected (Demo)</span>
     </div>
 
-    <div class="terminal" id="terminal">
-        <div class="line system">Type /help for commands. Chat with Claude just like in the terminal.</div>
-        <div class="line system">──────────────────────────────────────────────</div>
-    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="tab-bar">
+                <div class="tab-btn active" onclick="switchTab('chat')">Chat</div>
+                <div class="tab-btn" onclick="switchTab('controls')">Controls</div>
+                <div class="tab-btn" onclick="switchTab('log')">Log</div>
+            </div>
 
-    <div class="input-area">
-        <span class="prompt">$</span>
-        <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" autofocus>
-        <button class="btn" id="send-btn" onclick="sendMessage()">Send</button>
+            <div id="tab-chat" class="tab-content active">
+                <div class="terminal" id="terminal">
+                    <div class="line system">Remote Control System v1.0</div>
+                    <div class="line system">Type commands in natural language.</div>
+                    <div class="line system">Examples:</div>
+                    <div class="line system">  "Click the login button"</div>
+                    <div class="line system">  "Type 'hello' in search box"</div>
+                    <div class="line system">  "Scroll down 300px"</div>
+                    <div class="line system">──────────────────────────────────────</div>
+                </div>
+                <div class="input-area">
+                    <span class="prompt">$</span>
+                    <input type="text" id="user-input" placeholder="Type command or question..." autocomplete="off" autofocus>
+                    <button class="btn" id="send-btn" onclick="sendCommand()">Send</button>
+                </div>
+            </div>
+
+            <div id="tab-controls" class="tab-content">
+                <div class="control-panel">
+                    <h3>Browser Actions</h3>
+                    <div class="control-buttons">
+                        <div class="control-btn" onclick="sendControlCmd('click')">Click</div>
+                        <div class="control-btn" onclick="sendControlCmd('type')">Type</div>
+                        <div class="control-btn" onclick="sendControlCmd('scroll_down')">↓ Scroll</div>
+                        <div class="control-btn" onclick="sendControlCmd('scroll_up')">↑ Scroll</div>
+                        <div class="control-btn" onclick="sendControlCmd('refresh')">↻ Refresh</div>
+                        <div class="control-btn" onclick="sendControlCmd('screenshot')">📷 Snap</div>
+                        <div class="control-btn" onclick="sendControlCmd('back')">← Back</div>
+                        <div class="control-btn" onclick="sendControlCmd('forward')">→ Forward</div>
+                        <div class="control-btn" onclick="sendControlCmd('url')">🔗 URL</div>
+                    </div>
+                </div>
+                <div class="control-panel" style="border-bottom: none;">
+                    <h3>AI Assistant</h3>
+                    <div class="control-buttons">
+                        <div class="control-btn" onclick="sendControlCmd('analyze_page')">Analyze</div>
+                        <div class="control-btn" onclick="sendControlCmd('find_elements')">Find</div>
+                        <div class="control-btn" onclick="sendControlCmd('fill_form')">Fill Form</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-log" class="tab-content">
+                <div class="log-box" id="log-box">
+                    <div class="line system">> System initialized</div>
+                    <div class="line system">> Waiting for commands...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-area">
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <input type="text" id="url-bar" value="https://arena.ai/" style="flex: 1; background: rgba(13,17,28,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 8px 12px; color: #c9d1d9; font-size: 12px;" placeholder="Enter URL...">
+                <button class="btn btn-green" onclick="navigateToUrl()">Go</button>
+            </div>
+            <div class="screen-view" id="screen-view">
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #8b949e; font-size: 13px;">
+                    Screen sharing area (demo mode)<br>
+                    Connect to a real browser to see live view
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -53,26 +134,45 @@
         const input = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         const statusEl = document.getElementById('status');
+        const logBox = document.getElementById('log-box');
         let history = [];
         let historyIdx = -1;
+        let apiKey = localStorage.getItem('openrouter_key') || '';
 
         input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); sendMessage(); }
+            if (e.key === 'Enter') { e.preventDefault(); sendCommand(); }
             if (e.key === 'ArrowUp') { e.preventDefault(); if (historyIdx < history.length - 1) { historyIdx++; input.value = history[history.length - 1 - historyIdx]; } }
             if (e.key === 'ArrowDown') { e.preventDefault(); if (historyIdx > 0) { historyIdx--; input.value = history[history.length - 1 - historyIdx]; } else { historyIdx = -1; input.value = ''; } }
         });
 
-        function scrollToBottom() { terminal.scrollTop = terminal.scrollHeight; }
+        function scrollToBottom(el) { el.scrollTop = el.scrollHeight; }
+        function scrollLogToBottom() { scrollToBottom(logBox); }
+        function scrollTerminalToBottom() { scrollToBottom(terminal); }
 
         function addLine(text, className) {
             const div = document.createElement('div');
             div.className = 'line ' + (className || '');
             div.textContent = text;
             terminal.appendChild(div);
-            scrollToBottom();
+            scrollTerminalToBottom();
         }
 
-        async function sendMessage() {
+        function addLog(text) {
+            const div = document.createElement('div');
+            div.className = 'line system';
+            div.textContent = '> ' + text;
+            logBox.appendChild(div);
+            scrollLogToBottom();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        async function sendCommand() {
             const msg = input.value.trim();
             if (!msg) return;
 
@@ -81,7 +181,8 @@
                 addLine('Commands:', 'system');
                 addLine('  /help   - Show this help', 'system');
                 addLine('  /clear  - Clear terminal', 'system');
-                addLine('  /status - Check API status', 'system');
+                addLine('  /status - Check system status', 'system');
+                addLine('  /key <key> - Set OpenRouter API key', 'system');
                 input.value = '';
                 return;
             }
@@ -90,11 +191,20 @@
                 input.value = '';
                 return;
             }
+            if (msg.startsWith('/key ')) {
+                const key = msg.substring(5).trim();
+                if (key) {
+                    apiKey = key;
+                    localStorage.setItem('openrouter_key', key);
+                    addLine('$ ' + msg, 'prompt');
+                    addLine('API key saved.', 'system');
+                }
+                input.value = '';
+                return;
+            }
             if (msg === '/status') {
                 addLine('$ ' + msg, 'prompt');
-                addLine('Checking API status...', 'system');
-                // Mock health check – static demo
-addLine('OK: {"status":"demo","version":"1.0"}', 'assistant');
+                addLine('OK: {"status":"demo","version":"1.0"}', 'assistant');
                 input.value = '';
                 return;
             }
@@ -104,23 +214,37 @@ addLine('OK: {"status":"demo","version":"1.0"}', 'assistant');
 
             addLine('$ ' + msg, 'prompt');
             addLine('You: ' + msg, 'user');
+            addLog('Command received: ' + msg);
 
             input.value = '';
             input.disabled = true;
             sendBtn.disabled = true;
-            statusEl.textContent = '● Thinking...';
+            statusEl.textContent = '● Processing...';
             statusEl.style.color = '#d29922';
 
-            // Static demo – no backend
+            // Simulate processing
             setTimeout(() => {
-                addLine('Claude: This is a demo response. Run the Flask server locally for real interaction.', 'assistant');
-            }, 500);
+                addLine('Assistant: This is a demo. In full mode, AI would analyze your command and control the browser.', 'assistant');
+                addLog('Command processed (demo mode)');
+                input.disabled = false;
+                sendBtn.disabled = false;
+                statusEl.textContent = '● Connected (Demo)';
+                statusEl.style.color = '#3fb950';
+                input.focus();
+            }, 800);
+        }
 
-            input.disabled = false;
-            sendBtn.disabled = false;
-            statusEl.textContent = '● Connected';
-            statusEl.style.color = '#3fb950';
-            input.focus();
+        function sendControlCmd(action) {
+            addLog('Control action: ' + action);
+            addLine('$ ' + action, 'prompt');
+            addLine('System: Action "' + action + '" would be executed on remote browser.', 'system');
+        }
+
+        function navigateToUrl() {
+            const url = document.getElementById('url-bar').value;
+            addLog('Navigating to: ' + url);
+            addLine('$ navigate to ' + url, 'prompt');
+            addLine('System: Navigation to ' + url + ' (demo mode).', 'system');
         }
 
         // Auto-focus input
